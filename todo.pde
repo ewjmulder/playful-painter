@@ -1,6 +1,8 @@
 /*
 TODO / IDEAS:
 
+Other custom mouse pointer when selecting a 'color'
+
 Playful Painter:
 - ezel + verfbord als achtergrond -> maken in paint shop pro (incl 'verfjes')! Als bg volledig image inladen.
 - try to integrate some concepts that we learned, like sliders etc, maybe 'play' an image

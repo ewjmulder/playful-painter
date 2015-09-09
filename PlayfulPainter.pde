@@ -2,91 +2,83 @@ import java.util.*;
 
 EffectType DISTORT = new EffectType("Distort");
 
-PImage img;
-List<PImage> imgs;
+PImage imgBackground;
+int backgroundWidth = 1000;
+int backgroundHeight = 800;
+PImage cursorBrush;
+PImage imgPainting;
 String imgName;
-int imgWidth = 700;
-int imgHeight = 500;
-int maxX = imgWidth - 1;
-int maxY = imgHeight - 1;
-int glowWidth = 20;
-int glowHeight = 20;
+int imgX = 30;
+int imgY = 88;
+int imgWidth = 503;
+int imgHeight = 583;
 
-boolean playing = false;
-int imgFrameCount = 1;
-int imgFrameRate = 10;
+int controlsX = 600;
+int controlsY = 400;
+int controlsWidth = 350;
+int controlsHeight = 350;
+
 
 void setup() {
-  size(1000, 800);
-  frameRate(30);
-  
-  img = loadImage("dorse.jpg");
+  size(backgroundWidth, backgroundHeight);
+  frameRate(60);
+
+  cursorBrush = loadImage("cursorBrush.png");
+
+  imgBackground = loadImage("background-cutout.png");
+  imgBackground.loadPixels();
+
+  imgPainting = loadImage("dorse-cutout.jpg");
   imgName = "Dorse";
-  imgs = new ArrayList<PImage>();
 }
 
 void draw() {
-  background(0);
+  image(imgPainting, imgX, imgY);
+  image(imgBackground, 0, 0);
+  drawPaletteEffects();
+  drawControls();
   
-  image(img, 0, 0);
-  drawPlayer();
-  //drawGlow();
-  drawStatus();
-  
-/*  
-  if (exportCounter == 0) {
-    exportAnimatedGif.addFrame("AnimatedGifShop", 50);
-  } else if (exportCounter < 50) {
-    stroke(0);
-    line(0, 0, random(100), random(100));
-    exportAnimatedGif.addFrame("AnimatedGifShop", 50);
-  } else if (exportCounter == 50) {
-    exportAnimatedGif.export();
-  }  
-  exportCounter++;
-*/
-}
-
-void drawPlayer() {
-  // draw record button
-  fill(255, 0, 0);
-  stroke(255);
-  strokeWeight(1);
-  ellipseMode(CORNER);
-  ellipse(0 + 2, imgHeight + 2, 20, 20);
-  
-  //draw play button
-  fill(255);
-  noStroke();
-  triangle(20 + 5, imgHeight + 2, 20 + 5 + 25, imgHeight + 2 + 10, 20 + 5, imgHeight + 2 + 20);
-
-}
-
-void drawGlow() {
-  for (int y = 0; y < imgHeight; y++) {
-    for (int x = 0; x < glowWidth; x++) {
-      color c = getColor(maxX - x, y);
-      set(imgWidth + x, y, addAlpha(c, (int) map(x, 0, glowWidth - 1, 255, 100)));
-    }
+  if (onPainting(mouseX, mouseY)) {
+    cursor(cursorBrush, 0, 0);
+  } else {
+    cursor(ARROW);
   }
 }
 
-void drawStatus() {
-  int marginLeft = 50;
-  int marginTop = 50;
+boolean onPainting(int x, int y) {
+  return alpha(imgBackground.pixels[y * backgroundWidth + x]) == 0;
+}
+
+void drawPaletteEffects() {
+  ellipseMode(CORNER);
+  stroke(255);
+  strokeWeight(2);
+  fill(255, 0, 255, 150);
+  ellipse(568, 154, 60, 60); // white
+  ellipse(593, 88, 60, 60);  // black
+  ellipse(673, 83, 60, 60);  // gray
+  ellipse(651, 250, 60, 60); // red
+  ellipse(745, 260, 60, 60); // green
+  ellipse(840, 255, 60, 60); // blue
+  ellipse(905, 207, 60, 60); // yellow
+  ellipse(871, 142, 60, 60); // brown
+}
+
+void drawControls() {
+  noStroke();
+  fill(0, 0, 0, 100);
+  rect(controlsX, controlsY, controlsWidth, controlsHeight);
   
   PFont font = createFont("Arial", 16, true);
   fill(255);
   textFont(font, 24);
-  text("Animated GIF Shop!", imgWidth + marginLeft, marginTop);
-  text(imgName, imgWidth + marginLeft, marginTop + 20);
-  text("#frames: " + imgFrameCount, imgWidth + marginLeft, marginTop + 20 + 20);
+  text(imgName, controlsX + 50, controlsY + 50);
 
 }
 
 void mouseDragged() {
   if (mouseX < imgWidth && mouseY < imgHeight) {
-    img.loadPixels();
+    imgPainting.loadPixels();
     int range = 20;
     for (int y = 0; y < imgHeight; y++) {
       for (int x = 0; x < imgWidth; x++) {
@@ -98,7 +90,7 @@ void mouseDragged() {
       }
     }
     
-    img.updatePixels();
+    imgPainting.updatePixels();
   }
 
 }
@@ -108,11 +100,11 @@ void mouseDragged() {
 // Get the pixel value of the current image 'img' at the given x and y position.
 // This method assumes the pixel values in the pixels array are up to date (update by calling img.loadPixels()).
 color getColor(int x, int y) {
-  return img.pixels[y * imgWidth + x];
+  return imgPainting.pixels[y * imgWidth + x];
 }
 
 void setColor(int x, int y, color c) {
-  img.pixels[y * imgWidth + x] = c;
+  imgPainting.pixels[y * imgWidth + x] = c;
 }
 
 color addAlpha(color c, int a) {
