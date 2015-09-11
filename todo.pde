@@ -8,14 +8,42 @@ Playful Painter:
 
 !!! See also: https://processing.org/tutorials/pixels/ !!!
 
+Always control: size of brush
+effect to include / ideas:
+- black-white. Controls: threshold to make something black/white
+- grayscale? Controls?
+- tint. Controls: transparency, red, green, blue
+- edge detection. Controls: threshold
+- sharpen. Contols: how 'hard'
+- blur. Controls: how blurry
+- contrast. Controls: increase/decrease scale
+- pointillism (https://processing.org/tutorials/pixels/). Controls: how big to make the circles, maybe even shape of the points (circle, square, star)
+- pattern overlay. Controls: type over overlay, size of pattern, style of pattern
+- distort / noise. Controls: how 'hard'
+(maybe google some more stuff, but this is probably enough)
+
+Features: (requires keeping a copy of the original image)
+- Reset image option (or reset effect)
+- Apply effect to whole image
+- Apply effect to original image / current state of image
+- Preview effect on whole image! (with live slider update)
+
 Optional sound:
 - camera sound when taking a shot
 - brush sound when brushing
 
 Bij video maken:
+Technisch / voorbereiding
 - sketch ongeveer in midden beeld, zodat save popup in beeld komt
 - Sketch folder beschikbaar via alt-tab en juist gepositioneerd.
 - Geen andere exports in sketch folder laten staan
+Inhoudelijk:
+- Grappige intro (to the coast ...)
+- Kort de buttons langs?
+- Show all effects
+- Overlay of effects
+- Op zo'n manier uitproberen / voorbereiden dat een kunstig resultaat ontstaan. bijv: hoofd met bepaald effect, ogen met ander, etc
+
 
 UI: home made tabs, buttons, sliders (html5 / http://www.openprocessing.org/sketch/115256 / https://processing.org/examples/scrollbar.html / http://processingjs.org/learning/topic/scrollbar/)
 http://processingjs.org/learning/topic/
