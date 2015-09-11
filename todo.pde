@@ -21,6 +21,8 @@ effect to include / ideas:
 - pattern overlay. Controls: type over overlay, size of pattern, style of pattern
 - distort / noise. Controls: how 'hard'
 (maybe google some more stuff, but this is probably enough)
+http://www.developer.com/java/other/article.php/3403921/Processing-Image-Pixels-using-Java-Getting-Started.htm
+
 
 Features: (requires keeping a copy of the original image)
 - Reset image option (or reset effect)
