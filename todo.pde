@@ -1,6 +1,14 @@
 /*
 TODO / IDEAS:
 
+X brush area visible when mouse over painting
+X images of presenting trio in default set
+X one more image in default set, to demonstrate certain effect well
+- implement all effects
+- images (icons) of effects (circle radius 30)
+X show currect effect selection
+- slider controls for effect
+
 Other custom mouse pointer when selecting a 'color'
 
 Playful Painter:
