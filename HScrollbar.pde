@@ -9,7 +9,7 @@ class HScrollbar {
   boolean locked;
   float ratio;
 
-  HScrollbar (SliderData sliderData, float xp, float yp, int sw, int sh, int l) {
+  HScrollbar (SliderData sliderData, float xp, float yp, int sw, int sh, int l, float initialValue) {
     this.sliderData = sliderData;
     swidth = sw;
     sheight = sh;
@@ -17,16 +17,17 @@ class HScrollbar {
     ratio = (float)sw / (float)widthtoheight;
     xpos = xp;
     ypos = yp-sheight/2;
-    spos = xpos + swidth/2 - sheight/2;
+//    spos = xpos + swidth/2 - sheight/2;
+    float initialRatio = map(initialValue, sliderData.min, sliderData.max, 0, 1);
+    spos = xpos + initialRatio * (swidth - sheight);
     newspos = spos;
     sposMin = xpos;
     sposMax = xpos + swidth - sheight;
-    sposMaxSane = xpos + swidth;
     loose = l;
   }
 
   void update() {
-    if (overEvent()) {
+    if (over && overEvent() || !over && overEvent() && !mouseIsPressed()) {
       over = true;
     } else {
       over = false;
@@ -43,6 +44,10 @@ class HScrollbar {
     if (abs(newspos - spos) > 1) {
       spos = spos + (newspos-spos)/loose;
     }
+  }
+  
+  boolean mouseIsPressed() {
+    return mouseButton == LEFT || mouseButton == RIGHT || mouseButton == CENTER;
   }
 
   float constrain(float val, float minv, float maxv) {
@@ -81,7 +86,7 @@ class HScrollbar {
   }
   
   float getValue() {
-    return map(getPos(), sposMin, sposMaxSane, sliderData.min, sliderData.max);
+    return map(spos, sposMin, sposMax, sliderData.min, sliderData.max);
   }
   
 }

@@ -4,14 +4,14 @@ public class EffectType {
   private int iconX;
   private int iconY;
   private PImage icon;
-  private List<SliderData> sliders;
+  private List<HScrollbar> sliders;
   
-  public EffectType(String name, int iconX, int iconY, PImage icon) {
+  public EffectType(String name, int iconX, int iconY) {
     this.name = name;
     this.iconX = iconX;
     this.iconY = iconY;
-    this.icon = icon;
-    this.sliders = new ArrayList<SliderData>();
+    this.icon = null;
+    this.sliders = new ArrayList<HScrollbar>();
   }
   
   public String getName() {
@@ -30,11 +30,15 @@ public class EffectType {
     return this.icon;
   }
   
-  public void addSlider(String name, float min, float max) {
-    sliders.add(new SliderData(name, min, max));
+  public void setIcon(PImage icon) {
+    this.icon = icon;
+  }
+  
+  public void addSlider(HScrollbar slider) {
+    sliders.add(slider);
   } 
   
-  public List<SliderData> getSliders() {
+  public List<HScrollbar> getSliders() {
     return this.sliders;
   }
   

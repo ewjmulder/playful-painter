@@ -4,15 +4,12 @@ TODO / IDEAS:
 X brush area visible when mouse over painting
 X images of presenting trio in default set
 X one more image in default set, to demonstrate certain effect well
-- implement all effects
+X implement all effects
 - images (icons) of effects (circle radius 30)
 X show currect effect selection
-- slider controls for effect
+X slider controls for effect
 
 Other custom mouse pointer when selecting a 'color'
-
-Playful Painter:
-- try to integrate some concepts that we learned, like sliders etc, maybe 'play' an image
 
 !!! See also: https://processing.org/tutorials/pixels/ !!!
 
@@ -33,7 +30,7 @@ http://www.developer.com/java/other/article.php/3403921/Processing-Image-Pixels-
 
 
 Features: (requires keeping a copy of the original image)
-- Reset image option (or reset effect)
+X Reset image option (or reset effect)
 - Apply effect to whole image
 - Apply effect to original image / current state of image
 - Preview effect on whole image! (with live slider update)
