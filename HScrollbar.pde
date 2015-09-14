@@ -1,4 +1,7 @@
 class HScrollbar {
+  
+  boolean jsMode = (""+2.0 == ""+2); 
+
   SliderData sliderData;
   int swidth, sheight;    // width and height of bar
   float xpos, ypos;       // x and y position of bar
@@ -27,7 +30,7 @@ class HScrollbar {
   }
 
   void update() {
-    if (over && overEvent() || !over && overEvent() && !mouseIsPressed()) {
+    if (over && overEvent() || !over && overEvent() && !jsMode && !mouseIsPressed() || !over && overEvent() && jsMode && !isMouseDown()) {
       over = true;
     } else {
       over = false;

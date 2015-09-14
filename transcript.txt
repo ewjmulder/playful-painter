@@ -1,0 +1,72 @@
+Hello viewer and welcome to our 'Playful Painter' class!
+There is a lot to cover, so let's quickly head out to the coast and set up our painters easel.
+
+<start application> (or better: switch to running app)
+
+This is a nice spot here with a view of the ocean.
+Hmmm, interesting paint we have here on our palette: <read out some names>, I'm curious what they will do.
+
+But first, let's start by painting a nice picture on our empty canvas. We have a few to pick from here.
+Let's start with a photo of one of the lecturers.
+
+<pick initial image of Matt>
+
+Ah, there is Matt on our Canvas and we can try out some of our playful paints on him.
+We'll pick the first one over here, named 'Black & White'.
+We move the mouse over the canvas and see, the pointer changes into a brush and we see a circle that shows the brush size.
+Now let's paint some black & white!
+
+<paint and comment>
+
+Ah, the darker areas become black and thw whites areas white. That's actually pretty nice.
+Hey, look down here we have some sliders to change the effect.
+First we have the brush size slider, that seems obvious.
+
+<change value, paint some more>
+
+Indeed, we can paint small details or big patches at once.
+There is another slider down here, it sais threshold.
+
+<change value, paint some more>
+
+Ah, the larger the threshold, the ...
+
+Ok, that's all very nice, but we can do better than black and white.
+Let's pick another image and experiment some more. Here we have a nice photo of the rare offspring of a duck and a horse, the so-called 'dorse'.
+Now let's try some other effects. This a grayscale effect I guess
+
+<paint some gray>
+
+Yep, away with the color. But we like colors, moving on to the colory effect. Ah, it's the well known tint effect.
+
+<paint some tint>
+
+And you can set the tint color with these sliders.
+
+<paint some orther tint>
+
+Hmm, that has become quite messy, what can we do about that? This effect sais 'original', let's paint with that.
+
+<paint original>
+
+Ah, the original image comes back. It's some sort of effect eraser, nice.
+There are a few effects left, so let's try those out on yet another image.
+We have a nice sunflower here.
+
+<take picture - bright light!!>
+
+There we go, my own face on the canvas. These effects here are called sharpen and blur, I guess we all know them from our usual image editing tools.
+Much more interesting is this one: 'edge detection'. It will draw lines where edges are found in the original image.
+
+<paint with edge detection>
+
+
+That gives a nice artictic effect on my face.
+
+
+With 'new' we can take a picture with the webcam.
+
+<take picture - bright light!!>
+
+There we go, my own face on the canvas. These effects here are called sharpen and blur, I guess we all know them from our usual image editing tools.
+

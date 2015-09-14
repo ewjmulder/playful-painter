@@ -1,6 +1,10 @@
+/* @pjs preload="background.png, background-cutout.png, buttonOpen.png, buttonQuit.png, buttonSave.png, dorse-cutout.jpg, effect_black_white.png, effect_blur.png, effect_circles.png, effect_edge_detect.png, effect_grayscale.png, effect_original.png, effect_sharpen.png, effect_tint.png, Marco.jpg, Matt.jpg, Mick.jpg, sunflower.jpg"; */
+
 import java.util.*;
 import processing.video.*;
 import static javax.swing.JOptionPane.*;
+
+boolean jsMode = (""+2.0 == ""+2); 
 
 EffectType BLACK_WHITE = new EffectType("Black & White", 568, 154);
 EffectType GRAYSCALE = new EffectType("Grayscale", 593, 88);
@@ -97,15 +101,21 @@ int libraryImageWidth = 114;
 int libraryImageHeight = 132;
 
 void setup() {
-  size(backgroundWidth, backgroundHeight);
+  if (jsMode) {
+    size(1000, 800);
+  } else {
+    size(backgroundWidth, backgroundHeight);
+  }
   frameRate(60);
 
-  cursorCamera = loadImage("cursorCamera.png");
-  String[] cameras = Capture.list();
-  cam = new Capture(this, cameras[CAM_INDEX]);
+  if (!jsMode) {
+    cursorCamera = loadImage("cursorCamera.png");
+    String[] cameras = Capture.list();
+    cam = new Capture(this, cameras[CAM_INDEX]);
 
-  cursorBrush = loadImage("cursorBrush.png");
-  cursorPipette = loadImage("cursorPipette.png");
+    cursorBrush = loadImage("cursorBrush.png");
+    cursorPipette = loadImage("cursorPipette.png");
+  }
 
   imgBackgroundStart = loadImage("background.png");
   imgBackground = loadImage("background-cutout.png");
@@ -154,12 +164,27 @@ void setup() {
 }
 
 void draw() {
-  pickCursor();
+  if (!jsMode) {
+    pickCursor();
+  }
   if (cameraRunning) {
-    if (cam.available() == true) {
-      cam.read();
+    if (jsMode) {
+      background(0);
+      PFont font = createFont("Arial", 20, true);
+      fill(255);
+      textFont(font, 20);
+      textAlign(CENTER, BOTTOM);
+      text("Please allow webcam usage", backgroundWidth / 2, backgroundHeight / 2);      
+      boolean ok = drawVideoJs();
+      if (!ok) {
+        cameraRunning = false;
+      }
+    } else {
+      if (cam.available() == true) {
+        cam.read();
+      }
+      set(0, 0, cam);
     }
-    set(0, 0, cam);
     noFill();
     stroke(132, 34, 224);
     strokeWeight(3);
@@ -192,7 +217,6 @@ void draw() {
       }
     }
   }
-  
 }
  
 void pickCursor() {
@@ -243,7 +267,9 @@ void drawControls() {
   image(buttonNew, buttonNewX, buttonNewY);
   image(buttonOpen, buttonOpenX, buttonOpenY);
   image(buttonSave, buttonSaveX, buttonSaveY);
-  image(buttonQuit, buttonQuitX, buttonQuitY);
+  if (!jsMode) {
+    image(buttonQuit, buttonQuitX, buttonQuitY);
+  }
 
   if (showLibrary) {
     for (int gridY = 0; gridY <= 1; gridY++) {
@@ -293,17 +319,30 @@ void mouseDragged() {
 
 void mousePressed() {
   if (cameraRunning) {
-    images[CAMERA_IMAGE_INDEX] = cam.get(mouseX - (imgWidth / 2), mouseY - (imgHeight / 2), imgWidth, imgHeight);
+    if (jsMode) {
+      images[CAMERA_IMAGE_INDEX] = get(mouseX - (imgWidth / 2), mouseY - (imgHeight / 2), imgWidth, imgHeight);
+    } else {
+      images[CAMERA_IMAGE_INDEX] = cam.get(mouseX - (imgWidth / 2), mouseY - (imgHeight / 2), imgWidth, imgHeight);
+      cam.stop();
+    }
     originalImages[CAMERA_IMAGE_INDEX] = images[CAMERA_IMAGE_INDEX].get();
     imgPainting = images[CAMERA_IMAGE_INDEX];
     paintingIndex = CAMERA_IMAGE_INDEX;
     showLibrary = false;
-    cam.stop();
     cameraRunning = false;
   } else {
     if (mouseX >= buttonNewX && mouseX <= buttonNewX + buttonNewWidth && mouseY >= buttonNewY && mouseY <= buttonNewY + buttonNewHeight) {
-      cam.start();
-      cameraRunning = true;
+      if (jsMode) {
+        var hasVideoApi = initVideoJs();
+        if (hasVideoApi) {
+          cameraRunning = true;
+        } else {
+          alert("The browser cannot detect your webcam.");
+        }
+      } else {
+        cam.start();
+        cameraRunning = true;
+      }
     } else if (mouseX >= buttonOpenX && mouseX <= buttonOpenX + buttonOpenWidth && mouseY >= buttonOpenY && mouseY <= buttonOpenY + buttonOpenHeight) {
       showLibrary = true;
     } else if (mouseX >= buttonSaveX && mouseX <= buttonSaveX + buttonSaveWidth && mouseY >= buttonSaveY && mouseY <= buttonSaveY + buttonSaveHeight) {
@@ -313,7 +352,9 @@ void mousePressed() {
         showMessageDialog(null, "Your painting has been saved on disk with the name: '" + filename + "'.", "Save",  INFORMATION_MESSAGE);
       }
     } else if (mouseX >= buttonQuitX && mouseX <= buttonQuitX + buttonQuitWidth && mouseY >= buttonQuitY && mouseY <= buttonQuitY + buttonQuitHeight) {
-      exit();
+      if (!jsMode) {
+        exit();
+      }
     }
     
     for (EffectType effect : effects) {
