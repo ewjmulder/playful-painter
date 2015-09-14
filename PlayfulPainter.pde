@@ -122,6 +122,10 @@ void setup() {
   GRAYSCALE.setIcon(loadImage("effect_grayscale.png"));
   TINT.setIcon(loadImage("effect_tint.png"));
   ORIGINAL.setIcon(loadImage("effect_original.png"));
+  SHARPEN.setIcon(loadImage("effect_sharpen.png"));
+  BLUR.setIcon(loadImage("effect_blur.png"));
+  EDGE_DETECT.setIcon(loadImage("effect_edge_detect.png"));
+  SHAPES.setIcon(loadImage("effect_circles.png"));
 
   BLACK_WHITE.addSlider(blackWhiteThresholdSlider);
 
