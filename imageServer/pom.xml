@@ -30,6 +30,7 @@
 				<configuration>
 					<executable>java</executable>
 					<arguments>
+						<arguments>-Djava.security.egd=file:/dev/./urandom</arguments>
 						<argument>-classpath</argument>
 						<classpath />
 						<argument>coursera.imageserver.Main</argument>
@@ -43,6 +44,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.9</version>
 		</dependency>
 	</dependencies>
 
