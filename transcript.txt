@@ -4,9 +4,9 @@ There is a lot to cover, so let's quickly head out to the coast and set up our p
 <start application> (or better: switch to running app)
 
 This is a nice spot here with a view of the ocean.
-Hmmm, interesting paint we have here on our palette: <read out some names>, I'm curious what they will do.
+Hmmm, interesting paints we have on our palette, I'm curious what they will do.
 
-But first, let's start by painting a nice picture on our empty canvas. We have a few to pick from here.
+But first, we'd like to have a nice picture on our empty canvas. We have a few to pick from under the 'Open' button.
 Let's start with a photo of one of the lecturers.
 
 <pick initial image of Matt>
@@ -18,7 +18,7 @@ Now let's paint some black & white!
 
 <paint and comment>
 
-Ah, the darker areas become black and thw whites areas white. That's actually pretty nice.
+Ah, the darker areas become black and the lighter areas white. That's actually pretty nice.
 Hey, look down here we have some sliders to change the effect.
 First we have the brush size slider, that seems obvious.
 
@@ -29,15 +29,19 @@ There is another slider down here, it sais threshold.
 
 <change value, paint some more>
 
-Ah, the larger the threshold, the ...
+Ah, the larger the threshold, the darker the result and vice versa.
 
 Ok, that's all very nice, but we can do better than black and white.
-Let's pick another image and experiment some more. Here we have a nice photo of the rare offspring of a duck and a horse, the so-called 'dorse'.
-Now let's try some other effects. This a grayscale effect I guess
+Let's pick another image and experiment some more.
+Here we have a nice photo of the rare offspring of a duck and a horse, the so-called 'dorse'.
+
+<pick dorse>
+
+Now let's try some other effects. This is a grayscale effect I guess
 
 <paint some gray>
 
-Yep, away with the color. But we like colors, moving on to the colory effect. Ah, it's the well known tint effect.
+Yep, away with the color. But we like colors, so let's move on to the colory effect. Ah, it's the well known tint effect.
 
 <paint some tint>
 
@@ -49,24 +53,40 @@ Hmm, that has become quite messy, what can we do about that? This effect sais 'o
 
 <paint original>
 
-Ah, the original image comes back. It's some sort of effect eraser, nice.
+I see, the original image comes back. It's some sort of effect eraser, nice.
 There are a few effects left, so let's try those out on yet another image.
 We have a nice sunflower here.
 
-<take picture - bright light!!>
+<pick sunflower>
 
-There we go, my own face on the canvas. These effects here are called sharpen and blur, I guess we all know them from our usual image editing tools.
+These effects are called sharpen and blur, I guess we all know them from our usual image editing tools.
 Much more interesting is this one: 'edge detection'. It will draw lines where edges are found in the original image.
 
 <paint with edge detection>
 
+That gives a nice artictic effect on the flower.
+The last one is called circles, let's try it as well.
 
-That gives a nice artictic effect on my face.
+<paint with circles>
 
+Ooh, that's very arty-farty, nice!
 
-With 'new' we can take a picture with the webcam.
+Now let's combine some of these effects and try to get a creative result.
+We will use yet another image, this time I will use my own face.
+With 'new' we can take a picture from the webcam.
 
 <take picture - bright light!!>
 
-There we go, my own face on the canvas. These effects here are called sharpen and blur, I guess we all know them from our usual image editing tools.
+There we go, my own face on the canvas. Now let's try to make something interesting out of me, a challenge indeed. :)
+
+<paint free style>
+
+Ok, I'm quite happy with this result. Now I want to use it elsewhere, so we'll save it.
+
+<click save>
+
+A popup tells us where it has been saved. And to prove that it's indeed there, I'll open it with a photo viewer. There it is, our masterpiece!
+We can continue and share this on social media like in the lectures, but I'll leave that as an exercise to the viewer.
+
+All right, that's all! Thanks for watching and enjoy painting playful pictures! Bye!
 

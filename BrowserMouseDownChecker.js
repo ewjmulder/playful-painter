@@ -1,7 +1,14 @@
-var mouseDown = 0;
-function isMouseDown() {
-  return mouseDown > 0;
+function BrowserMouseDownChecker() {
+
+  this.isMouseDown = function() {
+    return mouseDown > 0;
+  }
+  
 }
+
+
+var mouseDown = 0;
+
 var currentOnLoad = window.onload;
 window.onload = function() {
   if (currentOnLoad != null) {
@@ -14,3 +21,4 @@ window.onload = function() {
     --mouseDown;
   }
 }
+

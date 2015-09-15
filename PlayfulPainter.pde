@@ -100,6 +100,10 @@ int libraryImageMargin = 10;
 int libraryImageWidth = 114;
 int libraryImageHeight = 132;
 
+VideoJs videoJs;
+Alerting alerting;
+ImageSaving imageSaving;
+
 void setup() {
   if (jsMode) {
     size(1000, 800);
@@ -108,7 +112,15 @@ void setup() {
   }
   frameRate(60);
 
-  if (!jsMode) {
+  if (jsMode) {
+    videoJs = new BrowserVideo();
+    alerting = new BrowserAlerting();
+    imageSaving = new BrowserImageSaving();
+  } else {
+    // Will not be used, so set to null is fine
+    videoJs = null;
+    alerting = null;
+    
     cursorCamera = loadImage("cursorCamera.png");
     String[] cameras = Capture.list();
     cam = new Capture(this, cameras[CAM_INDEX]);
@@ -127,6 +139,15 @@ void setup() {
   images[3] = loadImage("dorse-cutout.jpg");
   images[4] = loadImage("sunflower.jpg");
   images[CAMERA_IMAGE_INDEX] = null; // Reserved for camera image
+
+  // Copy images, so they are writeable.
+  if (jsMode) {
+    for (int i = 0; i < images.length; i++) {
+      if (images[i] != null) {
+        images[i] = images[i].get();
+      }
+    }
+  } 
 
   BLACK_WHITE.setIcon(loadImage("effect_black_white.png"));
   GRAYSCALE.setIcon(loadImage("effect_grayscale.png"));
@@ -175,7 +196,7 @@ void draw() {
       textFont(font, 20);
       textAlign(CENTER, BOTTOM);
       text("Please allow webcam usage", backgroundWidth / 2, backgroundHeight / 2);      
-      boolean ok = drawVideoJs();
+      boolean ok = videoJs.drawVideoJs();
       if (!ok) {
         cameraRunning = false;
       }
@@ -189,7 +210,7 @@ void draw() {
     stroke(132, 34, 224);
     strokeWeight(3);
     rectMode(CENTER);
-    rect(mouseX, mouseY, imgWidth, imgHeight, 7);
+    rect(mouseX - 1, mouseY - 1, imgWidth + 2, imgHeight + 2, 7);
   } else {
     if (imgPainting != null) {
       image(imgPainting, imgX, imgY);
@@ -209,8 +230,8 @@ void draw() {
     drawControls();
     for (EffectType effect : effects) {
       if (dist(mouseX, mouseY, effect.getIconX() + effectRadius, effect.getIconY() + effectRadius) <= effectRadius) {
-        PFont font = createFont("Arial Italic", 20, true);
-        fill(255);
+        PFont font = createFont("Arial Bold", 20, true);
+        fill(200, 30, 30);
         textFont(font, 20);
         textAlign(RIGHT, BOTTOM);
         text(effect.getName(), mouseX, mouseY);
@@ -320,7 +341,9 @@ void mouseDragged() {
 void mousePressed() {
   if (cameraRunning) {
     if (jsMode) {
-      images[CAMERA_IMAGE_INDEX] = get(mouseX - (imgWidth / 2), mouseY - (imgHeight / 2), imgWidth, imgHeight);
+      // Somehow we get 1 pixel bonus, so '- 1' to stay in sync with other images.
+      images[CAMERA_IMAGE_INDEX] = get(mouseX - (imgWidth / 2), mouseY - (imgHeight / 2), imgWidth - 1, imgHeight - 1);
+      videoJs.stopVideoJs();
     } else {
       images[CAMERA_IMAGE_INDEX] = cam.get(mouseX - (imgWidth / 2), mouseY - (imgHeight / 2), imgWidth, imgHeight);
       cam.stop();
@@ -333,11 +356,11 @@ void mousePressed() {
   } else {
     if (mouseX >= buttonNewX && mouseX <= buttonNewX + buttonNewWidth && mouseY >= buttonNewY && mouseY <= buttonNewY + buttonNewHeight) {
       if (jsMode) {
-        var hasVideoApi = initVideoJs();
+        boolean hasVideoApi = videoJs.initVideoJs();
         if (hasVideoApi) {
           cameraRunning = true;
         } else {
-          alert("The browser cannot detect your webcam.");
+          alerting.showAlert("The browser cannot detect your webcam.");
         }
       } else {
         cam.start();
@@ -346,10 +369,14 @@ void mousePressed() {
     } else if (mouseX >= buttonOpenX && mouseX <= buttonOpenX + buttonOpenWidth && mouseY >= buttonOpenY && mouseY <= buttonOpenY + buttonOpenHeight) {
       showLibrary = true;
     } else if (mouseX >= buttonSaveX && mouseX <= buttonSaveX + buttonSaveWidth && mouseY >= buttonSaveY && mouseY <= buttonSaveY + buttonSaveHeight) {
-      if (imgPainting != null) {
-        String filename = "playful-painter-" + year() + "-" + month() + "-" + day() + "_" + hour() + "-" + minute() + "-" + second() + ".jpg";
-        imgPainting.save(filename);
-        showMessageDialog(null, "Your painting has been saved on disk with the name: '" + filename + "'.", "Save",  INFORMATION_MESSAGE);
+      if (jsMode) {
+        imageSaving.saveImage();
+      } else {
+        if (imgPainting != null) {
+          String filename = "playful-painter-" + year() + "-" + month() + "-" + day() + "_" + hour() + "-" + minute() + "-" + second() + ".jpg";
+          imgPainting.save(filename);
+          showMessageDialog(null, "Your painting has been saved on disk with the name: '" + filename + "'.", "Save",  INFORMATION_MESSAGE);
+        }
       }
     } else if (mouseX >= buttonQuitX && mouseX <= buttonQuitX + buttonQuitWidth && mouseY >= buttonQuitY && mouseY <= buttonQuitY + buttonQuitHeight) {
       if (!jsMode) {
@@ -438,14 +465,12 @@ void performOriginal(int x, int y) {
 }
 
 void performSharpen(int x, int y) {
-  color c = getOriginalColor(x, y);
   float[][] matrix = applyStrength(sharpenMatrix, sharpenStrengthSlider.getValue());
   color newColor = convolution(x, y, matrix, 3, originalImages[paintingIndex]);
   setColor(x, y, newColor);
 }
 
 void performBlur(int x, int y) {
-  color c = getOriginalColor(x, y);
   float[][] matrix = applyStrength(blurMatrix, blurStrengthSlider.getValue());
   color newColor = convolution(x, y, matrix, 3, originalImages[paintingIndex]);
   setColor(x, y, newColor);
@@ -541,7 +566,7 @@ color convolution(int x, int y, float[][] matrix, int matrixsize, PImage img) {
   float rtotal = 0.0;
   float gtotal = 0.0;
   float btotal = 0.0;
-  int offset = matrixsize / 2;
+  int offset = (int) (matrixsize / 2);
   // Loop through convolution matrix
   for (int i = 0; i < matrixsize; i++){
     for (int j = 0; j < matrixsize; j++){

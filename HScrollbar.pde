@@ -11,6 +11,8 @@ class HScrollbar {
   boolean over;           // is the mouse over the slider?
   boolean locked;
   float ratio;
+  
+  MouseDownChecker mouseDownChecker;
 
   HScrollbar (SliderData sliderData, float xp, float yp, int sw, int sh, int l, float initialValue) {
     this.sliderData = sliderData;
@@ -27,10 +29,16 @@ class HScrollbar {
     sposMin = xpos;
     sposMax = xpos + swidth - sheight;
     loose = l;
+    
+    if (jsMode) {
+      mouseDownChecker = new BrowserMouseDownChecker();
+    } else {
+      mouseDownChecker = new DesktopMouseDownChecker();
+    }    
   }
 
   void update() {
-    if (over && overEvent() || !over && overEvent() && !jsMode && !mouseIsPressed() || !over && overEvent() && jsMode && !isMouseDown()) {
+    if (over && overEvent() || !over && overEvent() && !mouseDownChecker.isMouseDown()) {
       over = true;
     } else {
       over = false;
@@ -49,10 +57,6 @@ class HScrollbar {
     }
   }
   
-  boolean mouseIsPressed() {
-    return mouseButton == LEFT || mouseButton == RIGHT || mouseButton == CENTER;
-  }
-
   float constrain(float val, float minv, float maxv) {
     return min(max(val, minv), maxv);
   }
